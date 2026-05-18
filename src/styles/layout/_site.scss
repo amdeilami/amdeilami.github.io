@@ -1,0 +1,19 @@
+// Site-specific styles — custom additions on top of the HTML5 UP template.
+
+// All paragraphs inside panel articles are justified.
+#main article p {
+  text-align: justify;
+}
+
+// Education entry: logo + text side by side.
+.edu-entry {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 1.5em;
+
+  img {
+    width: 60px;
+    flex-shrink: 0;
+  }
+}

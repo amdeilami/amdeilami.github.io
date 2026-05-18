@@ -8,7 +8,7 @@ export default function Intro({ active, onClose }) {
         <img src="/images/Intro.jpg" alt="" />
         photo by Markus Spiske
       </span>
-      <p style={{ textAlign: 'justify' }}>
+      <p>
         Computing is beautiful, though it can be challenging in a lot of ways. Programs are
         getting more and more involved each day as well as hardware. But there is a question:{' '}
         <em>&ldquo;can this way of progressing continue as much as we want?&rdquo;</em>{' '}
@@ -20,7 +20,7 @@ export default function Intro({ active, onClose }) {
         on thinking about the fundamentals of computing. It&apos;s not as easy as reading a
         bunch of definitions — it requires reading and deep thinking simultaneously.
       </p>
-      <p style={{ textAlign: 'justify' }}>
+      <p>
         I can remember some moments of studying a set of principles and motivations on
         computer science during which I had to think for several hours to actually learn a
         basic concept as something reasonable, clear and extendable. I try to keep on my

@@ -7,23 +7,21 @@ export default function About({ active, onClose }) {
       <span className="image main">
         <img src="/images/Amir_in_Nature.jpg" alt="" />
       </span>
-      <p style={{ textAlign: 'justify' }}>
+      <p>
         I hold a Master&apos;s degree in Computer Science and have a genuine passion for
         continuous learning. Outside of software engineering, I enjoy intellectually
         stimulating films, chess, hiking, and cooking.
       </p>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1em', marginBottom: '1.5em' }}>
-        <img src="/images/sfu-logo.png" alt="Simon Fraser University logo"
-          style={{ width: '60px', flexShrink: 0 }} />
+      <div className="edu-entry">
+        <img src="/images/sfu-logo.png" alt="Simon Fraser University logo" />
         <div>
           <b>MSc, Computer Science</b><br />
           (2022&ndash;2023)<br />
           Simon Fraser University, Burnaby, British Columbia, Canada
         </div>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1em', marginBottom: '1.5em' }}>
-        <img src="/images/SBU_Logo.png" alt="Shahid Beheshti University logo"
-          style={{ width: '60px', flexShrink: 0 }} />
+      <div className="edu-entry">
+        <img src="/images/SBU_Logo.png" alt="Shahid Beheshti University logo" />
         <div>
           <b>B.Sc., Computer Engineering</b><br />
           (2014&ndash;2019)<br />
