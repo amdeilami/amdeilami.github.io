@@ -1,5 +1,28 @@
 // Site-specific styles — custom additions on top of the HTML5 UP template.
 
+// ── Cross-browser viewport fixes ──────────────────────────────────────────────
+//
+// All mobile browsers (Safari iOS, Chrome/Firefox/Samsung on Android) define
+// 100vh as the "large viewport" — height when browser chrome is fully hidden.
+// On page load when the address bar is visible, 100vh > visible area, so the
+// OS permits scrolling into that dead zone, producing phantom scroll space.
+//
+// CSS Viewport Units (supported everywhere since 2022–23) resolve this:
+//   svh  — Small Viewport Height : chrome always visible  (minimum safe height)
+//   lvh  — Large Viewport Height : chrome fully hidden    (≈ original 100vh)
+//   dvh  — Dynamic Viewport Height: resizes as chrome shows/hides
+//
+// #wrapper → svh: content fills the minimum guaranteed visible area, so there
+//   is never phantom scroll space regardless of browser or device.
+//
+// #bg stays at 100vh (≡ lvh): it is position:fixed so it is sized against the
+//   layout viewport. Using svh would expose a bare gap at the bottom the moment
+//   the address bar collapses. 100vh ensures it always covers the full screen.
+
+#wrapper {
+  min-height: 100svh;
+}
+
 // All paragraphs inside panel articles are justified.
 #main article p {
   text-align: justify;
