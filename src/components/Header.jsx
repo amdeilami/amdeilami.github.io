@@ -13,12 +13,13 @@ export default function Header() {
           </p>
         </div>
       </div>
-      {/* use-middle + is-middle are hard-coded because nav always has 4 items */}
-      <nav className="use-middle">
+      {/* 5 items = odd count — no use-middle or is-middle needed */}
+      <nav>
         <ul>
           <li><a href="#intro">Intro</a></li>
           <li><a href="#work">Projects</a></li>
-          <li className="is-middle"><a href="#about">About</a></li>
+          <li><a href="#agents">Me &amp; Agents</a></li>
+          <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>

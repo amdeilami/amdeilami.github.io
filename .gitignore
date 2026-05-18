@@ -25,3 +25,4 @@ dist-ssr
 
 # Agent context
 .agents/
+.claude/

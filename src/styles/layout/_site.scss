@@ -17,3 +17,165 @@
     flex-shrink: 0;
   }
 }
+
+// ── Me & Agents panel ────────────────────────────────────────────────────────
+
+.app-cards {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+}
+
+.app-card {
+  display: flex;
+  align-items: center;
+  gap: 1.1em;
+  padding: 1.1em 1.1em;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.32);
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+
+    .app-card-arrow { opacity: 0.9; }
+  }
+
+  &:active { transform: translateY(0); }
+}
+
+.app-card-icon {
+  flex-shrink: 0;
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15em;
+  opacity: 0.85;
+}
+
+.app-card-body {
+  flex: 1;
+  min-width: 0;
+
+  h4 {
+    margin: 0 0 0.25em;
+    font-size: 0.95em;
+    letter-spacing: 0.02em;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.8em;
+    opacity: 0.6;
+    line-height: 1.55;
+    text-align: left !important;
+  }
+}
+
+.app-card-arrow {
+  flex-shrink: 0;
+  opacity: 0.35;
+  font-size: 0.8em;
+  transition: opacity 0.2s ease;
+}
+
+.back-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: inherit;
+  cursor: pointer;
+  padding: 0.3em 0.8em;
+  margin-bottom: 1.2em;
+  border-radius: 3px;
+
+  &:hover { border-color: rgba(255, 255, 255, 0.6); }
+}
+
+// ── Gas Calculator ───────────────────────────────────────────────────────────
+
+.gas-calc {
+  label {
+    display: block;
+    font-size: 0.85em;
+    opacity: 0.75;
+    margin-bottom: 0.2em;
+  }
+
+  input {
+    width: 100%;
+    margin-bottom: 0.7em;
+    box-sizing: border-box;
+  }
+
+  h3, h4 { margin-bottom: 0.5em; }
+
+  .calc-row {
+    display: flex;
+    gap: 0.75em;
+    align-items: flex-start;
+
+    > * { flex: 1; }
+  }
+
+  .gc-settings-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8em;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+    padding: 0.6em 0.8em;
+    margin-bottom: 1em;
+    font-size: 0.9em;
+
+    button { margin-left: auto; }
+  }
+
+  .fuel-bar-wrap {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    height: 10px;
+    margin: 0.4em 0 0.5em;
+    overflow: hidden;
+  }
+
+  .fuel-bar {
+    background: #5cb85c;
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+  }
+
+  .gc-estimate {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    margin-bottom: 0.5em;
+  }
+
+  .history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85em;
+
+    th, td {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.35em 0.4em;
+      text-align: left;
+    }
+
+    th { opacity: 0.65; font-weight: 600; }
+  }
+}

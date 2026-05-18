@@ -1,0 +1,53 @@
+import { useState, useEffect } from 'react'
+import Panel from '../Panel'
+import GasCalculator from '../../apps/gas-calculator/GasCalculator'
+
+const APPS = [
+  {
+    id: 'gas-calculator',
+    title: 'Gas Consumption Calculator',
+    desc: 'Track refuels, compute L/100km, and estimate your remaining range — all stored locally in your browser.',
+    icon: 'fas fa-gas-pump',
+  },
+]
+
+export default function Agents({ active, onClose }) {
+  const [activeApp, setActiveApp] = useState(null)
+
+  useEffect(() => {
+    if (!active) setActiveApp(null)
+  }, [active])
+
+  return (
+    <Panel id="agents" active={active} onClose={onClose}>
+      <h2 className="major">Me &amp; Agents</h2>
+
+      {activeApp === null ? (
+        <>
+          <p>
+            Browser-based tools you can use directly — no sign-up, no server, no data leaves your device.
+          </p>
+          <ul className="app-cards">
+            {APPS.map(app => (
+              <li key={app.id} className="app-card" onClick={() => setActiveApp(app.id)}>
+                <div className="app-card-icon">
+                  <span className={app.icon} />
+                </div>
+                <div className="app-card-body">
+                  <h4>{app.title}</h4>
+                  <p>{app.desc}</p>
+                </div>
+                <span className="app-card-arrow fas fa-chevron-right" />
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <>
+          <button className="back-btn" onClick={() => setActiveApp(null)}>&#8592; Back to Apps</button>
+          {activeApp === 'gas-calculator' && <GasCalculator />}
+        </>
+      )}
+    </Panel>
+  )
+}
