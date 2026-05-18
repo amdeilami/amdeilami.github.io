@@ -14,7 +14,6 @@ function loadLog() {
 function calcStats(log, settings) {
   if (!settings || log.length === 0) return { avgConsumption: null, fuelAfterLast: null }
 
-  // Average consumption from entry 1 onward (entry 0 is the first fill, no prior odometer)
   const intervals = []
   for (let i = 1; i < log.length; i++) {
     const dist = log[i].odometer - log[i - 1].odometer
@@ -25,9 +24,9 @@ function calcStats(log, settings) {
       ? intervals.reduce((a, b) => a + b, 0) / intervals.length
       : settings.defaultConsumption
 
-  // Fuel level after the last logged refuel
-  // Reconstruct running fuel level from the start (tank starts full)
-  let fuel = settings.tankMax
+  // Reconstruct fuel level starting from the user-specified initial amount
+  // (falls back to tankMax for settings saved before this field was added)
+  let fuel = settings.initialFuel ?? settings.tankMax
   for (let i = 0; i < log.length; i++) {
     if (i > 0) {
       const dist = log[i].odometer - log[i - 1].odometer
@@ -47,6 +46,7 @@ export default function GasCalculator() {
   // Setup form state
   const [tankMax, setTankMax] = useState('')
   const [defaultConsumption, setDefaultConsumption] = useState('')
+  const [initialFuel, setInitialFuel] = useState('')
 
   // Refuel form state
   const [odometer, setOdometer] = useState('')
@@ -60,13 +60,17 @@ export default function GasCalculator() {
     if (settings && screen === 'setup') {
       setTankMax(String(settings.tankMax))
       setDefaultConsumption(String(settings.defaultConsumption))
+      setInitialFuel(String(settings.initialFuel ?? settings.tankMax))
     }
   }, [screen, settings])
 
   function saveSettings(e) {
     e.preventDefault()
-    const s = { tankMax: parseFloat(tankMax), defaultConsumption: parseFloat(defaultConsumption) }
-    if (!s.tankMax || !s.defaultConsumption || s.tankMax <= 0 || s.defaultConsumption <= 0) return
+    const max = parseFloat(tankMax)
+    const cons = parseFloat(defaultConsumption)
+    const init = parseFloat(initialFuel) || max  // blank → assume full tank
+    if (!max || !cons || max <= 0 || cons <= 0) return
+    const s = { tankMax: max, defaultConsumption: cons, initialFuel: Math.min(init, max) }
     localStorage.setItem(LS_SETTINGS, JSON.stringify(s))
     setSettings(s)
     setScreen('main')
@@ -90,6 +94,18 @@ export default function GasCalculator() {
     localStorage.removeItem(LS_LOG)
     setLog([])
     setCurrentOdo('')
+  }
+
+  function resetAll() {
+    localStorage.removeItem(LS_SETTINGS)
+    localStorage.removeItem(LS_LOG)
+    setSettings(null)
+    setLog([])
+    setCurrentOdo('')
+    setTankMax('')
+    setDefaultConsumption('')
+    setInitialFuel('')
+    setScreen('setup')
   }
 
   const { avgConsumption, fuelAfterLast } = calcStats(log, settings)
@@ -128,6 +144,15 @@ export default function GasCalculator() {
             type="text" inputMode="decimal" placeholder="e.g. 8.5"
             value={defaultConsumption} onChange={e => setDefaultConsumption(e.target.value)} required
           />
+          <label>Current fuel level (L)</label>
+          <input
+            type="text" inputMode="decimal"
+            placeholder={tankMax ? `e.g. ${tankMax} (full tank)` : 'e.g. 30'}
+            value={initialFuel} onChange={e => setInitialFuel(e.target.value)}
+          />
+          <small className="gc-hint">
+            How much fuel is in the tank right now? Leave blank to assume a full tank.
+          </small>
           <div className="calc-row" style={{ marginTop: '0.8em' }}>
             <button type="submit">Save &amp; Start</button>
             {settings && (
@@ -227,14 +252,25 @@ export default function GasCalculator() {
               })}
             </tbody>
           </table>
+        </>
+      )}
+
+      {/* Danger zone — always visible so users can reset even before adding entries */}
+      <div className="gc-danger-row">
+        {log.length > 0 && (
           <button
-            style={{ marginTop: '0.8em', opacity: 0.7 }}
             onClick={() => { if (window.confirm('Clear all log entries?')) resetLog() }}
           >
             Reset Log
           </button>
-        </>
-      )}
+        )}
+        <button
+          className="gc-reset-all"
+          onClick={() => { if (window.confirm('Reset everything? This will delete your settings and all log entries.')) resetAll() }}
+        >
+          Reset All
+        </button>
+      </div>
     </div>
   )
 }

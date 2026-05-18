@@ -20,6 +20,16 @@
 
 // ── Me & Agents panel ────────────────────────────────────────────────────────
 
+// Icon rendered inline inside h2.major when an app is active
+.app-title-icon {
+  margin-right: 0.4em;
+  opacity: 0.75;
+  font-size: 0.85em;
+  vertical-align: middle;
+  position: relative;
+  top: -0.05em;
+}
+
 .app-cards {
   list-style: none;
   padding: 0;
@@ -129,6 +139,14 @@
     > * { flex: 1; }
   }
 
+  .gc-hint {
+    display: block;
+    font-size: 0.75em;
+    opacity: 0.5;
+    margin-top: -0.4em;
+    margin-bottom: 0.8em;
+  }
+
   .gc-settings-bar {
     display: flex;
     flex-wrap: wrap;
@@ -163,6 +181,24 @@
     justify-content: space-between;
     font-size: 0.9em;
     margin-bottom: 0.5em;
+  }
+
+  .gc-danger-row {
+    display: flex;
+    gap: 0.6em;
+    margin-top: 0.8em;
+  }
+
+  .gc-reset-all {
+    opacity: 0.55;
+    border-color: rgba(220, 80, 80, 0.5) !important;
+    color: rgba(255, 160, 160, 0.85) !important;
+
+    &:hover {
+      opacity: 1;
+      border-color: rgba(220, 80, 80, 0.9) !important;
+      color: rgba(255, 160, 160, 1) !important;
+    }
   }
 
   .history-table {

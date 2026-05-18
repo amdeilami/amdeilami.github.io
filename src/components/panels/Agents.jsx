@@ -18,9 +18,17 @@ export default function Agents({ active, onClose }) {
     if (!active) setActiveApp(null)
   }, [active])
 
+  const currentApp = APPS.find(a => a.id === activeApp)
+
   return (
     <Panel id="agents" active={active} onClose={onClose}>
-      <h2 className="major">Me &amp; Agents</h2>
+      {currentApp ? (
+        <h2 className="major">
+          <span className={`${currentApp.icon} app-title-icon`} />{currentApp.title}
+        </h2>
+      ) : (
+        <h2 className="major">Me &amp; Agents</h2>
+      )}
 
       {activeApp === null ? (
         <>
