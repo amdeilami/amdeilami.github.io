@@ -34,6 +34,46 @@
   min-height: 100svh;
 }
 
+// ── Panel open: collapse header + align panel to top ──────────────────────────
+//
+// When a panel opens, #header fades to opacity:0 but stays in the flex layout
+// at full height, pushing #main (and the panel article) down by the header's
+// height — creating a large blank gap above the panel on every device.
+//
+// Fix — collapse #header to height 0 when a panel is visible:
+//   max-height animates from a safe upper bound (35rem covers every layout)
+//   to 0. overflow:hidden clips the header content during the collapse.
+//   The transition list reproduces all of the template's existing transitions
+//   (opacity, transform, filter) so overriding the transition property here
+//   doesn't lose them.
+//
+// #main justify-content:flex-start — with the header gone, #main fills almost
+//   the full viewport. Aligning the article to the top is better than centering
+//   on mobile where vertical space is limited.
+
+#header {
+  overflow: hidden;
+  max-height: 35rem; // tall enough for every screen size / font setting
+  -webkit-transition:
+    opacity        325ms ease-in-out,
+    -webkit-transform 325ms ease-in-out,
+    -webkit-filter 325ms ease-in-out,
+    max-height     325ms ease-in-out;
+  transition:
+    opacity    325ms ease-in-out,
+    transform  325ms ease-in-out,
+    filter     325ms ease-in-out,
+    max-height 325ms ease-in-out;
+}
+
+body.is-article-visible #header {
+  max-height: 0;
+}
+
+body.is-article-visible #main {
+  justify-content: flex-start;
+}
+
 // All paragraphs inside panel articles are justified.
 #main article p {
   text-align: justify;
@@ -340,6 +380,70 @@
 @keyframes ws-pop {
   from { transform: scale(0.82); opacity: 0; }
   to   { transform: scale(1);    opacity: 1; }
+}
+
+// ── Walk App ──────────────────────────────────────────────────────────────────
+
+.walk-app {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 420px;
+  background: #000;
+  border-radius: 4px;
+  overflow: hidden;
+
+  canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+.walk-overlay {
+  position: absolute;
+  bottom: 0.6em;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+
+  span {
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 0.75em;
+    padding: 0.3em 0.75em;
+    border-radius: 3px;
+  }
+}
+
+.walk-click-prompt {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  pointer-events: none;
+
+  p {
+    margin: 0;
+    font-size: 0.85em;
+    text-align: center !important;
+  }
+}
+
+.walk-mobile-hint {
+  padding: 1.5em;
+  text-align: center !important;
+  opacity: 0.7;
+  font-size: 0.9em;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
 }
 
 // ── Responsive overrides ─────────────────────────────────────────────────────

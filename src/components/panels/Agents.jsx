@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Panel from '../Panel'
 import GasCalculator from '../../apps/gas-calculator/GasCalculator'
 import WheelSpinner from '../../apps/wheel-spinner/WheelSpinner'
+import Walk from '../../apps/walk/Walk'
 
 const APPS = [
   {
@@ -15,6 +16,12 @@ const APPS = [
     title: 'Group Picker Wheel',
     desc: 'Enter names or a headcount, spin the wheel, and let chance decide who\'s picked.',
     icon: 'fas fa-random',
+  },
+  {
+    id: 'walk',
+    title: 'Walk',
+    desc: 'Explore a small open-world yard freely. WASD to move, mouse to look around.',
+    icon: 'fas fa-compass',
   },
 ]
 
@@ -62,6 +69,7 @@ export default function Agents({ active, onClose }) {
           <button className="back-btn" onClick={() => setActiveApp(null)}>&#8592; Back to Apps</button>
           {activeApp === 'gas-calculator' && <GasCalculator />}
           {activeApp === 'wheel-spinner' && <WheelSpinner />}
+          {activeApp === 'walk' && <Walk />}
         </>
       )}
     </Panel>
