@@ -206,14 +206,14 @@ export default function GasCalculator() {
       <h4>Log a refuel</h4>
       <form onSubmit={addRefuel}>
         <div className="calc-row">
-          <div style={{ flex: 1 }}>
+          <div>
             <label>Odometer (km)</label>
             <input
               type="text" inputMode="numeric" placeholder="e.g. 45200"
               value={odometer} onChange={e => setOdometer(e.target.value)} required
             />
           </div>
-          <div style={{ flex: 1 }}>
+          <div>
             <label>Liters added</label>
             <input
               type="text" inputMode="decimal" placeholder="e.g. 35"

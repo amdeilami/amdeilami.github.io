@@ -79,12 +79,24 @@ body.is-article-visible #main {
   text-align: justify;
 }
 
-// Project images: height controlled by CSS (height attr removed from Projects.jsx).
+// Project images — fixed height, cover-fit, responsive.
 .projects img {
+  display: block;
+  width: 100%;
   height: 150px;
   object-fit: cover;
-  width: 100%;
-  display: block;
+}
+
+@include breakpoint('<=small') {
+  .projects img { height: 120px; }
+  .gas-calc .calc-row { flex-direction: column; gap: 0; }
+  .gas-calc .history-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .wheel-spinner .ws-name-grid { grid-template-columns: 1fr; }
+}
+
+@include breakpoint('<=xsmall') {
+  .projects img { height: 100px; }
+  .gas-calc .gc-danger-row { flex-wrap: wrap; }
 }
 
 // Education entry: logo + text side by side.
@@ -100,6 +112,18 @@ body.is-article-visible #main {
   }
 }
 
+@include breakpoint('<=xsmall') {
+  .edu-entry {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6em;
+
+    img {
+      width: 48px;
+    }
+  }
+}
+
 // ── Me & Agents panel ────────────────────────────────────────────────────────
 
 // Icon rendered inline inside h2.major when an app is active
@@ -112,35 +136,30 @@ body.is-article-visible #main {
   top: -0.05em;
 }
 
-.app-cards {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75em;
-}
-
+// App gallery cards — must live here (unlayered SCSS) so they beat the
+// template's unlayered `ul li` rules that @layer components cannot override.
 .app-card {
   display: flex;
   align-items: center;
   gap: 1.1em;
-  padding: 1.1em 1.1em;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.04);
+  padding: 1.1em;
+  list-style: none;
+  border: 1px solid var(--color-glass-border);
+  border-radius: 0.5rem;
+  background: var(--color-glass-dim);
   cursor: pointer;
-  transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+  transition:
+    border-color 200ms ease-in-out,
+    background   200ms ease-in-out,
+    transform    200ms ease-in-out;
 
   &:hover {
-    border-color: rgba(255, 255, 255, 0.32);
-    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--color-glass-hover);
+    background: var(--color-glass-mid);
     transform: translateY(-1px);
 
     .app-card-arrow { opacity: 0.9; }
   }
-
-  &:active { transform: translateY(0); }
 }
 
 .app-card-icon {
@@ -148,8 +167,8 @@ body.is-article-visible #main {
   width: 3em;
   height: 3em;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--color-glass-icon);
+  border: 1px solid var(--color-glass-badge);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -180,19 +199,32 @@ body.is-article-visible #main {
   flex-shrink: 0;
   opacity: 0.35;
   font-size: 0.8em;
-  transition: opacity 0.2s ease;
+  transition: opacity 200ms ease-in-out;
 }
 
-.back-btn {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: inherit;
-  cursor: pointer;
-  padding: 0.3em 0.8em;
-  margin-bottom: 1.2em;
-  border-radius: 3px;
+@include breakpoint('<=xsmall') {
+  .app-card {
+    padding: 0.75em;
+    gap: 0.75em;
+  }
+}
 
-  &:hover { border-color: rgba(255, 255, 255, 0.6); }
+// Gas Calculator history table
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85em;
+
+  th, td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.35em 0.4em;
+    text-align: left;
+  }
+
+  th {
+    opacity: 0.65;
+    font-weight: 600;
+  }
 }
 
 // ── Gas Calculator ───────────────────────────────────────────────────────────
@@ -213,20 +245,20 @@ body.is-article-visible #main {
 
   h3, h4 { margin-bottom: 0.5em; }
 
-  .calc-row {
-    display: flex;
-    gap: 0.75em;
-    align-items: flex-start;
-
-    > * { flex: 1; }
-  }
-
   .gc-hint {
     display: block;
     font-size: 0.75em;
     opacity: 0.5;
     margin-top: -0.4em;
     margin-bottom: 0.8em;
+  }
+
+  .calc-row {
+    display: flex;
+    gap: 0.75em;
+    align-items: flex-start;
+
+    > * { flex: 1; }
   }
 
   .gc-settings-bar {
@@ -244,7 +276,7 @@ body.is-article-visible #main {
   }
 
   .fuel-bar-wrap {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--color-fuel-bg);
     border-radius: 4px;
     height: 10px;
     margin: 0.4em 0 0.5em;
@@ -252,7 +284,7 @@ body.is-article-visible #main {
   }
 
   .fuel-bar {
-    background: #5cb85c;
+    background: var(--color-fuel-bar);
     height: 100%;
     border-radius: 4px;
     transition: width 0.3s ease;
@@ -271,30 +303,19 @@ body.is-article-visible #main {
     margin-top: 0.8em;
   }
 
+  // Template buttons use box-shadow (not border) for the visual outline.
+  // Override box-shadow to show the danger colour; !important beats the
+  // template's inset box-shadow rule and the fg-bold color !important.
   .gc-reset-all {
     opacity: 0.55;
-    border-color: rgba(220, 80, 80, 0.5) !important;
-    color: rgba(255, 160, 160, 0.85) !important;
+    box-shadow: inset 0 0 0 2px var(--color-danger-border) !important;
+    color: var(--color-danger-text) !important;
 
     &:hover {
       opacity: 1;
-      border-color: rgba(220, 80, 80, 0.9) !important;
-      color: rgba(255, 160, 160, 1) !important;
+      box-shadow: inset 0 0 0 2px var(--color-danger-border-hover) !important;
+      color: var(--color-danger-text-hover) !important;
     }
-  }
-
-  .history-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.85em;
-
-    th, td {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 0.35em 0.4em;
-      text-align: left;
-    }
-
-    th { opacity: 0.65; font-weight: 600; }
   }
 }
 
@@ -325,6 +346,7 @@ body.is-article-visible #main {
   }
 
   .ws-dot {
+    display: inline-block;
     width: 11px;
     height: 11px;
     border-radius: 50%;
@@ -364,6 +386,7 @@ body.is-article-visible #main {
   }
 
   .ws-result-dot {
+    display: inline-block;
     width: 14px;
     height: 14px;
     border-radius: 50%;
@@ -384,19 +407,22 @@ body.is-article-visible #main {
 
 // ── Walk App ──────────────────────────────────────────────────────────────────
 
-.walk-app {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  max-height: 420px;
-  background: #000;
-  border-radius: 4px;
-  overflow: hidden;
+.walk-click-prompt {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  background: var(--color-prompt-bg);
+  color: #fff;
+  pointer-events: none;
 
-  canvas {
-    display: block;
-    width: 100% !important;
-    height: 100% !important;
+  p {
+    margin: 0;
+    font-size: 0.85em;
+    text-align: center !important;
   }
 }
 
@@ -410,30 +436,11 @@ body.is-article-visible #main {
   pointer-events: none;
 
   span {
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--color-overlay-bg);
     color: #fff;
     font-size: 0.75em;
     padding: 0.3em 0.75em;
     border-radius: 3px;
-  }
-}
-
-.walk-click-prompt {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5em;
-  background: rgba(0, 0, 0, 0.35);
-  color: #fff;
-  pointer-events: none;
-
-  p {
-    margin: 0;
-    font-size: 0.85em;
-    text-align: center !important;
   }
 }
 
@@ -446,58 +453,11 @@ body.is-article-visible #main {
   border-radius: 4px;
 }
 
-// ── Responsive overrides ─────────────────────────────────────────────────────
-
-@include breakpoint('<=small') {
-  // Project images: reduce height on tablets and phones.
-  .projects img {
-    height: 120px;
-  }
-
-  // Gas Calculator: stack the two side-by-side inputs into a single column.
-  .gas-calc .calc-row {
-    flex-direction: column;
-    gap: 0;
-  }
-
-  // Gas Calculator: allow the history table to scroll horizontally.
-  .gas-calc .history-table {
-    display: block;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  // Wheel Spinner: collapse name grid to a single column on small screens.
-  .wheel-spinner .ws-name-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@include breakpoint('<=xsmall') {
-  // Education entries: stack logo above text on narrow phones.
-  .edu-entry {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.6em;
-
-    img {
-      width: 48px;
-    }
-  }
-
-  // App cards: tighter padding on narrow screens.
-  .app-card {
-    padding: 0.75em;
-    gap: 0.75em;
-  }
-
-  // Gas Calculator danger-row buttons: allow wrapping on very narrow screens.
-  .gas-calc .gc-danger-row {
-    flex-wrap: wrap;
-  }
-
-  // Project images: further height reduction on small phones.
-  .projects img {
-    height: 100px;
-  }
+// Three.js / @react-three/fiber injects inline width/height styles on <canvas>;
+// this override is the only way to make the canvas fill the container since the
+// className prop cannot be applied to the internal <canvas> element directly.
+.walk-app canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
 }

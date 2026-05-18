@@ -6,6 +6,7 @@ import Projects from './components/panels/Projects'
 import Agents from './components/panels/Agents'
 import About from './components/panels/About'
 import './styles/main.scss'
+import './styles/tailwind.css'
 
 const DELAY = 325
 const PANELS = ['intro', 'work', 'agents', 'about']

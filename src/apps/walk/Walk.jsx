@@ -139,7 +139,7 @@ export default function Walk() {
 
   return (
     <KeyboardControls map={KEYBOARD_MAP}>
-      <div className="walk-app">
+      <div className="walk-app relative w-full aspect-video max-h-[420px] bg-black rounded overflow-hidden">
         <Canvas
           camera={{ fov: 75, near: 0.1, far: 100, position: [0, EYE_HEIGHT, 0] }}
           gl={{ antialias: true }}

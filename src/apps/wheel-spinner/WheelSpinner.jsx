@@ -228,7 +228,10 @@ export default function WheelSpinner() {
         </button>
       </div>
       {winner !== null && !spinning && (
-        <div className="ws-result" style={{ borderColor: COLORS[winner % COLORS.length] }}>
+        <div
+          className="ws-result"
+          style={{ borderColor: COLORS[winner % COLORS.length] }}
+        >
           <span className="ws-result-dot" style={{ background: COLORS[winner % COLORS.length] }} />
           <span className="ws-result-name">{names[winner]}</span>
         </div>

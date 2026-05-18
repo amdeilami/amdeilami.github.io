@@ -49,7 +49,7 @@ export default function Agents({ active, onClose }) {
           <p>
             Browser-based tools you can use directly — no sign-up, no server, no data leaves your device.
           </p>
-          <ul className="app-cards">
+          <ul className="list-none p-0 m-0 flex flex-col gap-[0.75em]">
             {APPS.map(app => (
               <li key={app.id} className="app-card" onClick={() => setActiveApp(app.id)}>
                 <div className="app-card-icon">
@@ -66,7 +66,12 @@ export default function Agents({ active, onClose }) {
         </>
       ) : (
         <>
-          <button className="back-btn" onClick={() => setActiveApp(null)}>&#8592; Back to Apps</button>
+          <button
+            className="bg-transparent border border-glass-btn text-inherit cursor-pointer px-[0.8em] py-[0.3em] mb-[1.2em] rounded-sm hover:border-glass-hover transition-colors duration-200"
+            onClick={() => setActiveApp(null)}
+          >
+            &#8592; Back to Apps
+          </button>
           {activeApp === 'gas-calculator' && <GasCalculator />}
           {activeApp === 'wheel-spinner' && <WheelSpinner />}
           {activeApp === 'walk' && <Walk />}
