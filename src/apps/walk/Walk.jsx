@@ -90,6 +90,7 @@ function PlayerControls({ locked, onLock, onUnlock }) {
   return (
     <PointerLockControls
       ref={controlsRef}
+      selector=".walk-app"
       onLock={onLock}
       onUnlock={onUnlock}
     />
@@ -141,7 +142,7 @@ export default function Walk() {
     <KeyboardControls map={KEYBOARD_MAP}>
       <div className="walk-app relative w-full aspect-video max-h-[420px] bg-black rounded overflow-hidden">
         <Canvas
-          camera={{ fov: 75, near: 0.1, far: 100, position: [0, EYE_HEIGHT, 0] }}
+          camera={{ fov: 75, near: 0.1, far: 100, position: [0, EYE_HEIGHT, 0], rotation: [0, 0, 0] }}
           gl={{ antialias: true }}
           dpr={[1, 2]}
         >
