@@ -1,23 +1,34 @@
 // Site-specific styles — custom additions on top of the HTML5 UP template.
 
-// ── Cross-browser viewport fixes ──────────────────────────────────────────────
+// ── Cross-browser viewport / scroll fixes ─────────────────────────────────────
 //
-// All mobile browsers (Safari iOS, Chrome/Firefox/Samsung on Android) define
-// 100vh as the "large viewport" — height when browser chrome is fully hidden.
-// On page load when the address bar is visible, 100vh > visible area, so the
-// OS permits scrolling into that dead zone, producing phantom scroll space.
+// Two separate root causes both produce phantom scroll space on mobile:
 //
-// CSS Viewport Units (supported everywhere since 2022–23) resolve this:
-//   svh  — Small Viewport Height : chrome always visible  (minimum safe height)
-//   lvh  — Large Viewport Height : chrome fully hidden    (≈ original 100vh)
-//   dvh  — Dynamic Viewport Height: resizes as chrome shows/hides
+// 1. Stacked invisible panels (primary cause — fixed in Panel.jsx)
+//    All 4 panel <article> elements were always in the DOM simultaneously.
+//    With position:relative (template default) they stacked in #main's flex
+//    column, creating hundreds of pixels of invisible overflow on every view.
+//    Panel.jsx now conditionally mounts/unmounts each article so at most one
+//    is ever in the DOM, replicating the original template's display:none
+//    behaviour while preserving the CSS opacity/transform transition via rAF.
 //
-// #wrapper → svh: content fills the minimum guaranteed visible area, so there
-//   is never phantom scroll space regardless of browser or device.
+// 2. 100vh ≠ visible area on all mobile browsers (secondary guard — fixed here)
+//    Safari iOS, Chrome/Firefox/Samsung Android all define 100vh as the "large
+//    viewport" — the height when the browser chrome is fully hidden. On page
+//    load when the address bar is visible, 100vh > visible area, so the page
+//    can be scrolled into that dead zone.
 //
-// #bg stays at 100vh (≡ lvh): it is position:fixed so it is sized against the
-//   layout viewport. Using svh would expose a bare gap at the bottom the moment
-//   the address bar collapses. 100vh ensures it always covers the full screen.
+//    CSS Viewport Units (supported everywhere since 2022–23):
+//      svh — Small Viewport Height : chrome always visible (minimum safe size)
+//      lvh — Large Viewport Height : chrome fully hidden   (≈ original 100vh)
+//      dvh — Dynamic Viewport Height: resizes as chrome shows/hides
+//
+//    #wrapper → svh: fills the minimum guaranteed visible area, no phantom
+//      scroll space on any mobile browser.
+//
+//    #bg stays at 100vh (≡ lvh): position:fixed, sized against the layout
+//      viewport. svh would leave a bare gap when the address bar collapses;
+//      100vh always covers the full screen.
 
 #wrapper {
   min-height: 100svh;
