@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Panel from '../Panel'
 import GasCalculator from '../../apps/gas-calculator/GasCalculator'
+import WheelSpinner from '../../apps/wheel-spinner/WheelSpinner'
 
 const APPS = [
   {
@@ -8,6 +9,12 @@ const APPS = [
     title: 'Gas Consumption Calculator',
     desc: 'Track refuels, compute L/100km, and estimate your remaining range — all stored locally in your browser.',
     icon: 'fas fa-gas-pump',
+  },
+  {
+    id: 'wheel-spinner',
+    title: 'Group Picker Wheel',
+    desc: 'Enter names or a headcount, spin the wheel, and let chance decide who\'s picked.',
+    icon: 'fas fa-random',
   },
 ]
 
@@ -54,6 +61,7 @@ export default function Agents({ active, onClose }) {
         <>
           <button className="back-btn" onClick={() => setActiveApp(null)}>&#8592; Back to Apps</button>
           {activeApp === 'gas-calculator' && <GasCalculator />}
+          {activeApp === 'wheel-spinner' && <WheelSpinner />}
         </>
       )}
     </Panel>

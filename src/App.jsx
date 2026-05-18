@@ -5,11 +5,10 @@ import Intro from './components/panels/Intro'
 import Projects from './components/panels/Projects'
 import Agents from './components/panels/Agents'
 import About from './components/panels/About'
-import Contact from './components/panels/Contact'
 import './styles/main.scss'
 
 const DELAY = 325
-const PANELS = ['intro', 'work', 'agents', 'about', 'contact']
+const PANELS = ['intro', 'work', 'agents', 'about']
 
 export default function App() {
   const [isPreload, setIsPreload] = useState(true)
@@ -93,7 +92,6 @@ export default function App() {
         <Projects active={activePanel === 'work'}    onClose={close} />
         <Agents   active={activePanel === 'agents'}  onClose={close} />
         <About    active={activePanel === 'about'}   onClose={close} />
-        <Contact  active={activePanel === 'contact'} onClose={close} />
       </div>
       <Footer />
     </div>

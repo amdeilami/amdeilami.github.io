@@ -24,7 +24,7 @@ export default function Projects({ active, onClose }) {
             manually instead of its auto-generated version, resulting in a halved (area) cell
             — wonderful! Especially for embedded applications.
             <br /><br />
-            <img src="/images/Layout.png" width="100%" height="150" alt="Heaven Gate layout" />
+            <img src="/images/Layout.png" width="100%" alt="Heaven Gate layout" />
           </p>
         </li>
         <li>
@@ -35,7 +35,7 @@ export default function Projects({ active, onClose }) {
             and finding the best sampling rate and signal scaling for better resolution were
             part of the challenges.
             <br /><br />
-            <img src="/images/Pitch_Detection.png" width="100%" height="150" alt="Pitch detection" />
+            <img src="/images/Pitch_Detection.png" width="100%" alt="Pitch detection" />
           </p>
         </li>
         <li>
@@ -47,7 +47,7 @@ export default function Projects({ active, onClose }) {
             multiplayer section and launch it on a server — maybe it becomes another{' '}
             <em>Among Us!</em>
             <br /><br />
-            <img src="/images/Hitman.jpg" width="100%" height="150" alt="Hitman Go" />
+            <img src="/images/Hitman.jpg" width="100%" alt="Hitman Go" />
           </p>
         </li>
       </ul>

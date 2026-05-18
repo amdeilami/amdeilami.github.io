@@ -5,6 +5,14 @@
   text-align: justify;
 }
 
+// Project images: height controlled by CSS (height attr removed from Projects.jsx).
+.projects img {
+  height: 150px;
+  object-fit: cover;
+  width: 100%;
+  display: block;
+}
+
 // Education entry: logo + text side by side.
 .edu-entry {
   display: flex;
@@ -213,5 +221,145 @@
     }
 
     th { opacity: 0.65; font-weight: 600; }
+  }
+}
+
+// ── Wheel Spinner ─────────────────────────────────────────────────────────────
+
+.wheel-spinner {
+  h3 { margin-bottom: 0.6em; }
+
+  label { display: block; font-size: 0.85em; opacity: 0.75; margin-bottom: 0.25em; }
+
+  input { width: 100%; margin-bottom: 0.6em; box-sizing: border-box; }
+
+  .ws-hint { opacity: 0.5; font-weight: normal; }
+
+  .ws-name-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35em 0.65em;
+    margin-bottom: 0.3em;
+  }
+
+  .ws-name-row {
+    display: flex;
+    align-items: center;
+    gap: 0.45em;
+
+    input { margin-bottom: 0; }
+  }
+
+  .ws-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .ws-canvas-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 0.5em auto 0.9em;
+  }
+
+  canvas { display: block; }
+
+  .ws-controls {
+    display: flex;
+    gap: 0.6em;
+    justify-content: center;
+    margin-bottom: 1em;
+  }
+
+  .ws-spin-btn {
+    min-width: 90px;
+    font-size: 1.05em;
+    font-weight: 600;
+  }
+
+  .ws-result {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65em;
+    border: 2px solid;
+    border-radius: 8px;
+    padding: 0.8em 1em;
+    animation: ws-pop 0.35s ease;
+  }
+
+  .ws-result-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .ws-result-name {
+    font-size: 1.25em;
+    font-weight: 600;
+    text-align: left;
+  }
+}
+
+@keyframes ws-pop {
+  from { transform: scale(0.82); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+// ── Responsive overrides ─────────────────────────────────────────────────────
+
+@include breakpoint('<=small') {
+  // Project images: reduce height on tablets and phones.
+  .projects img {
+    height: 120px;
+  }
+
+  // Gas Calculator: stack the two side-by-side inputs into a single column.
+  .gas-calc .calc-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  // Gas Calculator: allow the history table to scroll horizontally.
+  .gas-calc .history-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  // Wheel Spinner: collapse name grid to a single column on small screens.
+  .wheel-spinner .ws-name-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@include breakpoint('<=xsmall') {
+  // Education entries: stack logo above text on narrow phones.
+  .edu-entry {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6em;
+
+    img {
+      width: 48px;
+    }
+  }
+
+  // App cards: tighter padding on narrow screens.
+  .app-card {
+    padding: 0.75em;
+    gap: 0.75em;
+  }
+
+  // Gas Calculator danger-row buttons: allow wrapping on very narrow screens.
+  .gas-calc .gc-danger-row {
+    flex-wrap: wrap;
+  }
+
+  // Project images: further height reduction on small phones.
+  .projects img {
+    height: 100px;
   }
 }

@@ -28,6 +28,25 @@ export default function About({ active, onClose }) {
           Shahid Beheshti University, Tehran, Tehran province, Iran
         </div>
       </div>
+      <p>
+        I am always open to meaningful conversations — whether it is a professional
+        inquiry, a collaborative opportunity, or a thoughtful discussion about computing
+        and technology. Feel free to reach out through either of the platforms below.
+      </p>
+      <ul className="icons">
+        <li>
+          <a href="https://www.linkedin.com/in/amirmohammad-deilami-724033246"
+            className="icon brands fa-linkedin" target="_blank" rel="noreferrer">
+            <span className="label">LinkedIn</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/amdeilami"
+            className="icon brands fa-github" target="_blank" rel="noreferrer">
+            <span className="label">GitHub</span>
+          </a>
+        </li>
+      </ul>
     </Panel>
   )
 }
