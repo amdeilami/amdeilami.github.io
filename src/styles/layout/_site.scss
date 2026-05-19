@@ -53,7 +53,7 @@
 
 #header {
   overflow: hidden;
-  max-height: 35rem; // tall enough for every screen size / font setting
+  max-height: 35rem; // must exceed actual header height on all screens
   -webkit-transition:
     opacity        325ms ease-in-out,
     -webkit-transform 325ms ease-in-out,
@@ -113,6 +113,11 @@ body.is-article-visible #main {
 }
 
 @include breakpoint('<=xsmall') {
+  // At xsmall the nav stacks vertically (4 × 3rem = 12 rem), pushing the
+  // total header height above the 35rem max-height set above, which silently
+  // clips the bottom nav items via overflow:hidden.
+  #header { max-height: 50rem; }
+
   .edu-entry {
     flex-direction: column;
     align-items: flex-start;
