@@ -53,12 +53,26 @@ No localStorage — stateless.
 
 ## Critical gotchas
 
-### r3f v9 — camera must include `rotation`
+### r3f v9 — camera lookAt bug in production
 
-`<Canvas camera={{ position: [0, 1.7, 0], rotation: [0, 0, 0] }}>`
+r3f v9 calls `camera.lookAt(0, 0, 0)` on init when position ≠ origin. From `[0, 1.7, 0]`
+that is straight down → entire canvas renders as solid ground green in production builds.
 
-Without `rotation`, r3f v9 calls `camera.lookAt(0, 0, 0)` on init when position ≠ origin.
-A camera at `[0, 1.7, 0]` without rotation would look straight down at the ground.
+`rotation: [0, 0, 0]` in the camera prop looks like a fix and masks the bug in dev
+(React StrictMode's double-render resets it), but it does NOT work in production.
+
+**Fix:** use `onCreated` to reset the quaternion after r3f creates the camera but before
+the first frame renders:
+
+```jsx
+<Canvas
+  camera={{ fov: 75, near: 0.1, far: 100, position: [0, EYE_HEIGHT, 0] }}
+  onCreated={({ camera }) => camera.quaternion.identity()}
+>
+```
+
+`camera.quaternion.identity()` = no rotation = camera looks along −Z (correct default).
+Do NOT pass `rotation` in the camera prop — it doesn't override `lookAt` in production.
 
 ### PointerLockControls — use `selector=".walk-app"`
 
