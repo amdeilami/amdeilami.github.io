@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const LS_DAYS = 'daily-planner-days'
 const HISTORY_DAYS = 7 // today + previous 6
@@ -91,6 +91,44 @@ export default function DailyPlanner() {
     if (noteOpenId === id) setNoteOpenId(null)
   }
 
+  // ── Drag-to-reorder ──────────────────────────────────────────────────────
+  // Pointer Events instead of HTML5 drag-and-drop: the latter does not fire
+  // on touch devices. The grip handle has touch-action:none (CSS) so dragging
+  // it never scrolls the page; setPointerCapture keeps move/up events coming
+  // to the handle even though React re-renders the rows mid-drag.
+  const [dragId, setDragId] = useState(null)
+  const listRef = useRef(null)
+
+  function onDragStart(e, id) {
+    e.currentTarget.setPointerCapture(e.pointerId)
+    setDragId(id)
+  }
+
+  function onDragMove(e) {
+    if (dragId === null || !listRef.current) return
+    const from = goals.findIndex(g => g.id === dragId)
+    if (from === -1) return
+    const rows = Array.from(listRef.current.children)
+    let to = rows.length - 1
+    for (let i = 0; i < rows.length; i++) {
+      const r = rows[i].getBoundingClientRect()
+      if (e.clientY < r.top + r.height / 2) {
+        to = Math.max(0, i - (i > from ? 1 : 0))
+        break
+      }
+    }
+    if (to !== from) {
+      const next = [...goals]
+      const [moved] = next.splice(from, 1)
+      next.splice(to, 0, moved)
+      updateGoals(next)
+    }
+  }
+
+  function onDragEnd() {
+    setDragId(null)
+  }
+
   const doneCount = goals.filter(g => g.done).length
   const pastKeys = Object.keys(days)
     .filter(k => k !== todayKey)
@@ -124,10 +162,24 @@ export default function DailyPlanner() {
         <p className="dp-empty">No goals yet — add your first goal for today above.</p>
       )}
 
-      <ul className="dp-goal-list">
+      <ul className={`dp-goal-list${dragId !== null ? ' dp-drag-active' : ''}`} ref={listRef}>
         {goals.map(goal => (
-          <li key={goal.id} className={goal.done ? 'dp-done' : ''}>
+          <li
+            key={goal.id}
+            className={`${goal.done ? 'dp-done' : ''}${goal.id === dragId ? ' dp-dragging' : ''}`}
+          >
             <div className="dp-goal-row">
+              {goals.length > 1 && (
+                <span
+                  className="dp-drag fas fa-grip-vertical"
+                  title="Drag to reorder"
+                  onPointerDown={e => onDragStart(e, goal.id)}
+                  onPointerMove={onDragMove}
+                  onPointerUp={onDragEnd}
+                  onPointerCancel={onDragEnd}
+                  onContextMenu={e => e.preventDefault()}
+                />
+              )}
               <button
                 type="button" className="dp-check" title={goal.done ? 'Mark as not done' : 'Mark as done'}
                 onClick={() => toggleGoal(goal.id)}
