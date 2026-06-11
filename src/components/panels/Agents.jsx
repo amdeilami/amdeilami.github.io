@@ -3,6 +3,7 @@ import Panel from '../Panel'
 import GasCalculator from '../../apps/gas-calculator/GasCalculator'
 import WheelSpinner from '../../apps/wheel-spinner/WheelSpinner'
 import Walk from '../../apps/walk/Walk'
+import DailyPlanner from '../../apps/daily-planner/DailyPlanner'
 
 const APPS = [
   {
@@ -16,6 +17,12 @@ const APPS = [
     title: 'Group Picker Wheel',
     desc: 'Enter names or a headcount, spin the wheel, and let chance decide who\'s picked.',
     icon: 'fas fa-random',
+  },
+  {
+    id: 'daily-planner',
+    title: 'Daily Planner',
+    desc: 'Set goals for the day, mark them done, attach notes — with a 7-day history.',
+    icon: 'fas fa-calendar-check',
   },
   {
     id: 'walk',
@@ -74,6 +81,7 @@ export default function Agents({ active, onClose }) {
           </button>
           {activeApp === 'gas-calculator' && <GasCalculator />}
           {activeApp === 'wheel-spinner' && <WheelSpinner />}
+          {activeApp === 'daily-planner' && <DailyPlanner />}
           {activeApp === 'walk' && <Walk />}
         </>
       )}

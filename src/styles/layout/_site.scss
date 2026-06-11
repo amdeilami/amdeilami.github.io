@@ -92,6 +92,15 @@ body.is-article-visible #main {
   .gas-calc .calc-row { flex-direction: column; gap: 0; }
   .gas-calc .history-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .wheel-spinner .ws-name-grid { grid-template-columns: 1fr; }
+  // Bigger touch targets on mobile (~36px vs ~26px on desktop)
+  .daily-planner .dp-check,
+  .daily-planner .dp-icon-btn {
+    width: 2.6em;
+    height: 2.6em !important;
+    line-height: 2.6em !important;
+  }
+  // iOS Safari zooms the page on focus when an input's font-size < 16px
+  .daily-planner input { font-size: 16px; }
 }
 
 @include breakpoint('<=xsmall') {
@@ -408,6 +417,191 @@ body.is-article-visible #main {
 @keyframes ws-pop {
   from { transform: scale(0.82); opacity: 0; }
   to   { transform: scale(1);    opacity: 1; }
+}
+
+// ── Daily Planner ─────────────────────────────────────────────────────────────
+
+.daily-planner {
+  h3, h4 { margin-bottom: 0.6em; }
+
+  .dp-date {
+    font-size: 0.7em;
+    opacity: 0.6;
+    font-weight: normal;
+  }
+
+  .dp-add-row {
+    display: flex;
+    gap: 0.6em;
+    margin-bottom: 1em;
+
+    input { flex: 1; box-sizing: border-box; }
+    button { flex-shrink: 0; }
+  }
+
+  .dp-bar-wrap {
+    background: var(--color-dp-bar-bg);
+    border-radius: 4px;
+    height: 8px;
+    overflow: hidden;
+  }
+
+  .dp-bar {
+    background: var(--color-dp-done);
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+  }
+
+  .dp-progress {
+    font-size: 0.8em;
+    opacity: 0.6;
+    margin: 0.35em 0 0.8em;
+    text-align: left !important;
+  }
+
+  .dp-empty {
+    font-size: 0.85em;
+    opacity: 0.5;
+    text-align: left !important;
+  }
+
+  // Template ul/li rules add bullets and padding — neutralise them here.
+  .dp-goal-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.2em;
+
+    li {
+      padding: 0.45em 0;
+      border-bottom: 1px solid var(--color-glass-border);
+    }
+  }
+
+  .dp-goal-row {
+    display: flex;
+    align-items: center;
+    gap: 0.55em;
+  }
+
+  .dp-text {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .dp-done .dp-text {
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+
+  // Small square icon buttons — the template button rules (height 2.75em,
+  // uppercase, inset box-shadow, padding) must all be overridden.
+  .dp-check,
+  .dp-icon-btn {
+    width: 1.9em;
+    height: 1.9em !important;
+    line-height: 1.9em !important;
+    padding: 0 !important;
+    flex-shrink: 0;
+    font-size: 0.85em;
+    border-radius: 4px;
+  }
+
+  .dp-check {
+    border-radius: 50%;
+
+    .fas { opacity: 0.25; }
+  }
+
+  .dp-done .dp-check {
+    box-shadow: inset 0 0 0 2px var(--color-dp-done) !important;
+    color: var(--color-dp-done) !important;
+
+    .fas { opacity: 1; }
+  }
+
+  // Base opacity must stay readable — touch devices never see :hover
+  .dp-icon-btn {
+    opacity: 0.6;
+
+    &:hover { opacity: 1; }
+  }
+
+  .dp-has-note { opacity: 0.9; }
+
+  .dp-delete:hover {
+    box-shadow: inset 0 0 0 2px var(--color-danger-border-hover) !important;
+    color: var(--color-danger-text-hover) !important;
+  }
+
+  .dp-note-input {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 0.45em;
+    font-size: 0.85em;
+    height: 2.25em;
+  }
+
+  .dp-note {
+    font-size: 0.8em;
+    font-style: italic;
+    opacity: 0.55;
+    margin: 0.25em 0 0 2.55em;
+    text-align: left !important;
+  }
+
+  .dp-history-title { margin-top: 0.4em; }
+
+  .dp-day-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    padding: 0.7em 0.9em;
+    margin-bottom: 0.7em;
+    font-size: 0.9em;
+  }
+
+  .dp-day-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.6em;
+    margin-bottom: 0.4em;
+
+    span { font-size: 0.85em; opacity: 0.6; }
+  }
+
+  .dp-day-goals {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.5em;
+      padding: 0.15em 0;
+    }
+
+    .dp-day-mark {
+      width: 1.1em;
+      text-align: center;
+      flex-shrink: 0;
+      opacity: 0.4;
+    }
+
+    .dp-done .dp-day-mark {
+      color: var(--color-dp-done);
+      opacity: 1;
+    }
+
+    .dp-note {
+      flex-basis: 100%;
+      margin-left: 1.6em;
+      margin-top: 0;
+    }
+  }
 }
 
 // ── Walk App ──────────────────────────────────────────────────────────────────

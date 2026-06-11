@@ -23,6 +23,10 @@
   --color-danger-border-hover: rgba(220, 80, 80, 0.90);
   --color-danger-text-hover:   rgba(255, 160, 160, 1);
 
+  /* Daily Planner */
+  --color-dp-done:   #5cb85c;
+  --color-dp-bar-bg: rgba(255, 255, 255, 0.10);
+
   /* Walk overlay */
   --color-overlay-bg: rgba(0, 0, 0, 0.50);
   --color-prompt-bg:  rgba(0, 0, 0, 0.35);
